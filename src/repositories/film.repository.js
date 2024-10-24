@@ -47,7 +47,7 @@ const filmRepository = {
 
     findShowTimesByFilmAndDate: async (film_id, date_detail) => {
         try {
-            const sqlQuery = 'SELECT e.start_hour FROM film_showtime_schedule fss JOIN event e ON fss.event_id = e.id WHERE fss.film_id = ? AND fss.date = ?;';
+            const sqlQuery = 'SELECT e.start_hour,fss.id film_schedule_id,fss.room_id,fss.timing_id,fss.day_type_id,fss.event_id FROM film_showtime_schedule fss JOIN event e ON fss.event_id = e.id WHERE fss.film_id = ? AND fss.date = ?;';
             const binds = [film_id, date_detail];
             const rows = await query(sqlQuery, binds);
             return rows;
