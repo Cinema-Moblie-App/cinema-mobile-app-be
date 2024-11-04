@@ -26,6 +26,18 @@ const userRepository = {
             console.error('Error creating user:', error);
             return null;
         }
+    },
+
+    updatePassword: async (gmail, password) => {
+        try {
+            const sqlQuery = `UPDATE user SET password = ? WHERE gmail = ?`;
+            let binds = [password, gmail];
+            await query(sqlQuery, binds);
+            return { message: "Password updated" };
+        } catch (error) {
+            console.error('Error updating password:', error);
+            return null;
+        }
     }
 
 }

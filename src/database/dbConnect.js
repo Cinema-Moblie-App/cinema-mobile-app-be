@@ -20,7 +20,7 @@ connection.connect(function (err) {
     console.log('Connected as id ' + connection.threadId);
     
     
-    // Đóng kết nối khi xong
+    // Close the connection
     // connection.end(function (err) {
     //     if (err) {
     //         return console.log('Error ending the connection: ' + err.message);

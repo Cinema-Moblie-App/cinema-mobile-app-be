@@ -6,7 +6,6 @@ import jwt from "jsonwebtoken";
 const userService = {
     login: async (req) => {
         const { gmail, password } = req.body;
-        console.log(req.body);
         try {
             const user = await userRepository.findUserByEmail(gmail);
             if (!user) {
@@ -21,7 +20,7 @@ const userService = {
             console.log("isPasswordValid:" + isPasswordValid);
 
             const token = jwt.sign(
-                { userId: user._id, email: user.email, role: user.role },
+                { userId: user._id, gmail: user.email, role: user.role },
                 process.env.JWT_SECRET,
                 { expiresIn: "1h" }
             );
@@ -51,6 +50,25 @@ const userService = {
             };
             const createdUser = await userRepository.createUser(newUser);
             return { message: "Success", content: createdUser };
+        } catch (error) {
+            return { message: "Error", content: error.toString() };
+        }
+    },
+
+    resetPassword: async (req) => {
+        const { gmail, old_password, new_password } = req.body;
+        try {
+            const user = await userRepository.findUserByEmail(gmail);
+            if (!user) {
+                return { message: "Error", content: "User not found" };
+            }
+            if(!bcrypt.compare(old_password, user.password)){
+                return { message: "Error", content: "Old password is incorrect" };
+            }
+            const hashedPassword = await bcrypt.hash(new_password, 10);
+            const updatedUser = await userRepository.updatePassword(gmail, hashedPassword);
+                  
+            return { message: "Success", content: updatedUser };
         } catch (error) {
             return { message: "Error", content: error.toString() };
         }

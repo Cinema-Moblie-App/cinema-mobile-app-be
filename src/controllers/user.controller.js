@@ -1,10 +1,10 @@
 "use strict";
-import UserSevice from '../services/user.service.js';
+import UserService from '../services/user.service.js';
 
 export const UserController = {
     login : async (req, res) => {
         try {
-            const user = await UserSevice.login(req);
+            const user = await UserService.login(req);
             return res.status(200).json(user);
         } catch (error) {
             return res.status(500).json({ message: error.message });
@@ -12,12 +12,20 @@ export const UserController = {
     },
     register : async (req, res) => {
         try {
-            const user = await UserSevice.register(req);
+            const user = await UserService.register(req);
             console.log(user)
             return res.status(200).json(user);
         } catch (error) {
             return res.status(500).json({ message: error.message });
         }
-    }
+    },
+    resetPassword: async (req, res) => {
+        try {
+            const user = await UserService.resetPassword(req);
+            return res.status(200).json(user);
+        } catch (error) {
+            return res.status(500).json({ message: error.message });
+        }
+    },
 }
 

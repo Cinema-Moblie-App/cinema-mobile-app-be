@@ -6,7 +6,7 @@ import seatRouter from './seat.route.js';
 
 const router = express.Router()
 
-router.use("/", userRouter);
+router.use("/auth", userRouter);
 router.use("/films", filmRouter);
 router.use("/news", newRouter);
 router.use("/seats", seatRouter);
